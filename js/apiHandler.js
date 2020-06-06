@@ -35,7 +35,7 @@ async function getSynonymsForWord(word)
 		 * API Documentation:
 		 * https://www.datamuse.com/api
 		 */
-		let url = "https://api.datamuse.com/words?rel_syn=" + word;
+		let url = ApiUrlsEnum.SYNONYM_BASE_URL + word;
 		
 		callApi(url)
 			.then(function(result)
@@ -88,7 +88,7 @@ async function getAntonymsForWord(word)
 		 * API Documentation:
 		 * https://www.datamuse.com/api
 		 */
-		let url = "https://api.datamuse.com/words?rel_ant=" + word;
+		let url = ApiUrlsEnum.ANTONYM_BASE_URL + word;
 		
 		callApi(url)
 			.then(function(result)
