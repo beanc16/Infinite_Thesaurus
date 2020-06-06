@@ -1,8 +1,18 @@
+/* 
+ * INITIALIZATION
+ */
+
 function initializeButtons()
 {
 	runOnClick("#synonyms", getRootSynonyms);
 	runOnClick("#antonyms", getRootAntonyms);
 }
+
+
+
+/* 
+ * GETTERS
+ */
 
 function getRootWord()
 {
@@ -40,20 +50,22 @@ function clearTable(tableNum)
 
 function displayWords(tableNum, words)
 {
+	// Initialize main variables
 	let row = appendRowToTBody(tableNum);
-	let cellNum = 0;
-	let maxCellsPerRow = 4;
+	let wordNum = 0;
+	let maxWordsPerRow = 4;
 	
 	for (let i = 0; i < words.length; i++)
 	{
-		if (cellNum >= maxCellsPerRow)
+		// The current row has the maximum number of words
+		if (wordNum >= maxWordsPerRow)
 		{
-			cellNum = 0;
+			wordNum = 0;
 			row = appendRowToTBody(tableNum);
 		}
 		
 		let curWord = words[i].word;
 		appendCellToRow(row, curWord);
-		cellNum++;
+		wordNum++;
 	}
 }

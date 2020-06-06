@@ -31,7 +31,10 @@ async function getSynonymsForWord(word)
 {
 	return new Promise(function (resolve, reject)
 	{
-		// Documentation: https://www.datamuse.com/api
+		/*
+		 * API Documentation:
+		 * https://www.datamuse.com/api
+		 */
 		let url = "https://api.datamuse.com/words?rel_syn=" + word;
 		
 		callApi(url)
@@ -81,7 +84,10 @@ async function getAntonymsForWord(word)
 {
 	return new Promise(function (resolve, reject)
 	{
-		// Documentation: https://www.datamuse.com/api
+		/*
+		 * API Documentation:
+		 * https://www.datamuse.com/api
+		 */
 		let url = "https://api.datamuse.com/words?rel_ant=" + word;
 		
 		callApi(url)
