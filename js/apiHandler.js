@@ -4,27 +4,22 @@
 
 async function getSynonymsForWords(words)
 {
-	return new Promise(function (resolve, reject)
+	let synonyms = [];
+	
+	for (let i = 0; i < words.length; i++)
 	{
-		let synonyms = [];
-		
-		for (let i = 0; i < words.length; i++)
-		{
-			//synonyms[i] = await getSynonymsForWord(words[i]);
-			
-			getSynonymsForWord(words[i])
-				.then(function(syns)
-				{
-					synonyms[i] = syns;
-				})
-				.catch(function(error)
-				{
-					reject(error);
-				});
-		}
-		
-		resolve(synonyms);
-	});
+		await getSynonymsForWord(words[i])
+			.then(function(syns)
+			{
+				synonyms[i] = syns;
+			})
+			.catch(function(error)
+			{
+				reject(error);
+			});
+	}
+	
+	return await Promise.all(synonyms);
 }
 
 async function getSynonymsForWord(word)
@@ -57,27 +52,22 @@ async function getSynonymsForWord(word)
 
 async function getAntonymsForWords(words)
 {
-	return new Promise(function (resolve, reject)
+	let antonyms = [];
+	
+	for (let i = 0; i < words.length; i++)
 	{
-		let antonyms = [];
-		
-		for (let i = 0; i < words.length; i++)
-		{
-			//antonyms[i] = await getAntonymsForWord(words[i]);
-			
-			getAntonymsForWord(words[i])
-				.then(function(ants)
-				{
-					antonyms[i] = ants;
-				})
-				.catch(function(error)
-				{
-					reject(error);
-				});
-		}
-		
-		resolve(antonyms);
-	});
+		await getAntonymsForWord(words[i])
+			.then(function(ants)
+			{
+				antonyms[i] = ants;
+			})
+			.catch(function(error)
+			{
+				reject(error);
+			});
+	}
+	
+	return await Promise.all(antonyms);
 }
 
 async function getAntonymsForWord(word)

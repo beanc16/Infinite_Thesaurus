@@ -27,9 +27,10 @@
 		
 	<!-- JS -->
     <script src="../js/apiUrlsEnum.js"></script>
+    <script src="../js/apiHandler.js"></script>
+    <script src="../js/bootstrapGetters.js"></script>
     <script src="../js/buttonHandler.js"></script>
     <script src="../js/tableHandler.js"></script>
-    <script src="../js/apiHandler.js"></script>
     <script src="../js/scriptManager.js"></script>
 </head>
 
@@ -40,7 +41,7 @@
 <!-- Vertical Spacing -->
 <div class="form-group row col-12"></div>
 
-<form action="/users" method="get" class="container col-12">
+<form class="container col-12">
 	<!-- Text Input -->
 	<div class="form-group row col-12">
 		<input type="text" class="form-control" name="rootWord" id="rootWord" placeholder="Enter word" />
@@ -49,9 +50,9 @@
 	<!-- Synonym / Antonym Buttons -->
 	<div class="form-group row col-12">
 		<div class="col-1"></div>	<!-- Horizontal Spacing -->
-		<input type="submit" class="col-4" name="synonyms" id="synonyms" value="Get Synonyms" />
+		<input type="submit" class="col-4" name="synonyms1" id="synonyms1" value="Get Synonyms" />
 		<div class="col-2"></div>	<!-- Horizontal Spacing -->
-		<input type="submit" class="col-4" name="antonyms" id="antonyms" value="Get Antonyms" />
+		<input type="submit" class="col-4" name="antonyms1" id="antonyms1" value="Get Antonyms" />
 		<div class="col-1"></div>	<!-- Horizontal Spacing -->
 	</div>
 </form>

@@ -1,5 +1,10 @@
 let curNumOfTables = 1;
 
+function getCurrentTableNum()
+{
+	return $("table").length;
+}
+
 
 
 /*
@@ -11,7 +16,7 @@ function createBootstrapTable()
 	let table = document.createElement("table");	// Initialization
 	$(table).addClass("table table-borderless");	// Class
 	
-	curNumOfTables++;
+	let curNumOfTables = getCurrentTableNum() + 1;
 	$(table).attr("id", "table" + curNumOfTables);	// ID
 	
 	$(table).append(createTBody(curNumOfTables));	// TBody
@@ -36,12 +41,20 @@ function createTableCell(displayText)
 {
 	let cell = document.createElement("td");		// Initialization
 	
-	if (displayText != null)
+	if (displayText == null)
 	{
-		$(cell).html(displayText);					// Display text if given any
+		displayText = "";
 	}
 	
+	// Add checkbox to cell
+	$(cell).append(getBootstrapCheckbox(displayText));
+	
 	return cell;
+}
+
+function createEmptyTableCell()
+{
+	return document.createElement("td");			// Initialization
 }
 
 
@@ -62,4 +75,33 @@ function appendCellToRow(row, displayText)
 	let cell = createTableCell(displayText);		// Initialization
 	$(row).append(cell);							// Add cell to current row
 	return cell;
+}
+
+function appendButtonCellToRow(row, content)
+{
+	let cell = createEmptyTableCell();				// Initialization
+	$(cell).html(content);							// Display
+	
+	$(row).append(cell);							// Add cell to current row
+	return cell;
+}
+
+function appendBootstrapTableToBody()
+{
+	let table = createBootstrapTable();
+	$("body").append(table);
+	
+	return table;
+}
+
+
+
+/* 
+ * UTILITY
+ */
+
+function tableExists(tableNum)
+{
+	let table = $("#table" + tableNum);
+	return (table.length > 0);
 }
