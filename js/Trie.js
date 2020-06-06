@@ -13,51 +13,9 @@ class Trie
 	
 	
 	
-	insert(str, data)
-	{
-		let curLetter;
-		let pCrawl = this.#root;
-		
-		for (let i = 0; i < str.length; i++)
-		{
-            curLetter = str[i];
-			
-			// Create a node if there are currently no children with that letter
-            if (pCrawl.children[curLetter] == null)
-			{
-				pCrawl.children[curLetter] = new _TrieNode();
-			}
-			
-			// Crawl to the next letter in the tree
-            pCrawl = pCrawl.children[curLetter]; 
-		}
-		
-		// Mark last node as a leaf with data
-		pCrawl.isEndOfWord = true;
-		pCrawl.data = data;
-	}
-	
-	hasWord(str)
-	{
-		let curLetter;
-		let pCrawl = this.#root;
-		
-		for (let i = 0; i < str.length; i++)
-        {
-            curLetter = str[i];
-			
-			// There are currently no children with that letter
-            if (pCrawl.children[curLetter] == null)
-			{
-                return false;
-			}
-			
-            pCrawl = pCrawl.children[curLetter];
-        }
-		
-		// The final word was a leaf node
-        return (pCrawl != null && pCrawl.isEndOfWord);
-	}
+	/*
+	 * GETTERS
+	 */
 	
 	getData(str)
 	{
@@ -86,15 +44,105 @@ class Trie
 	
 	
 	
-	// Private functions
-	_characterToNumber = function(character)
+	/*
+	 * INSERTING
+	 */
+	
+	insert(str, data)
 	{
-		return character.charCodeAt(0) - 97;
+		let curLetter;
+		let pCrawl = this.#root;
+		
+		for (let i = 0; i < str.length; i++)
+		{
+            curLetter = str[i];
+			
+			// Create a node if there are currently no children with that letter
+            if (pCrawl.children[curLetter] == null)
+			{
+				pCrawl.children[curLetter] = new _TrieNode();
+			}
+			
+			// Crawl to the next letter in the tree
+            pCrawl = pCrawl.children[curLetter]; 
+		}
+		
+		// Mark last node as a leaf with data
+		pCrawl.isEndOfWord = true;
+		pCrawl.data = data;
 	}
 	
-	_numberToCharacter = function(number)
+	appendPropertyToData(str, propertyKey, propertyValue)
 	{
-		return String.fromCharCode(97 + number);
+		let curLetter;
+		let pCrawl = this.#root;
+		
+		for (let i = 0; i < str.length; i++)
+		{
+            curLetter = str[i];
+			
+			// Create a node if there are currently no children with that letter
+            if (pCrawl.children[curLetter] == null)
+			{
+				pCrawl.children[curLetter] = new _TrieNode();
+			}
+			
+			// Crawl to the next letter in the tree
+            pCrawl = pCrawl.children[curLetter]; 
+		}
+		
+		// Mark last node as a leaf with data
+		pCrawl.isEndOfWord = true;
+		
+		// Append data
+		if (pCrawl.data == null)
+		{
+			pCrawl.data = {};
+		}
+		
+		// Make the data an array if it already exists (so it doesn't overwrite existing data)
+		if (pCrawl.data[propertyKey] != null)
+		{
+			pCrawl.data[propertyKey] = this._mergeArrays([pCrawl.data[propertyKey], propertyValue]);
+		}
+		
+		else
+		{
+			pCrawl.data[propertyKey] = propertyValue;
+		}
+	}
+	
+	_mergeArrays(arrayOfArrays)
+	{
+		return [].concat.apply([], arrayOfArrays);
+	}
+	
+	
+	
+	/*
+	 * BOOLEAN
+	 */
+	
+	hasWord(str)
+	{
+		let curLetter;
+		let pCrawl = this.#root;
+		
+		for (let i = 0; i < str.length; i++)
+        {
+            curLetter = str[i];
+			
+			// There are currently no children with that letter
+            if (pCrawl.children[curLetter] == null)
+			{
+                return false;
+			}
+			
+            pCrawl = pCrawl.children[curLetter];
+        }
+		
+		// The final word was a leaf node
+        return (pCrawl != null && pCrawl.isEndOfWord);
 	}
 }
 
