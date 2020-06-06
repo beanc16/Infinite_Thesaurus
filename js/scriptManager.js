@@ -1,0 +1,1 @@
+runOnDocumentReady(preventPageRefresh, initializeButtons);
