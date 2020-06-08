@@ -170,6 +170,8 @@ function clearTable(tableNum)
 
 function displayWords(tableNum, words)
 {
+	words = parseWordsForDisplay(words);
+	
 	// Initialize main variables
 	let row = appendRowToTBody(tableNum);
 	let wordNum = 0;
@@ -184,10 +186,21 @@ function displayWords(tableNum, words)
 			row = appendRowToTBody(tableNum);
 		}
 		
-		let curWord = words[i].word;
-		appendCellToRow(row, curWord);
+		appendCellToRow(row, words[i]);
 		wordNum++;
 	}
+}
+
+function parseWordsForDisplay(words)
+{
+	// Convert words array of objects to just an array of words (strings)
+	words = getWordsFromArrayOfObjects(words);
+	
+	// Remove words that are already displayed (so no duplicates are displayed)
+	words = getWordsThatArentDisplayedYet(words);
+	
+	// Remove duplicate words
+	return removeDuplicatesFromArray(words);
 }
 
 function addSynonymsAndAntonymsButtonToTable(tableNum)

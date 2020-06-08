@@ -42,6 +42,36 @@ class Trie
 		}
 	}
 	
+	getAllMatchingWords(wordsArray)
+	{
+		let matchingWords = [];
+		
+		for (let i = 0; i < wordsArray.length; i++)
+		{
+			if (this.hasWord(wordsArray[i]))
+			{
+				matchingWords.push(wordsArray[i]);
+			}
+		}
+		
+		return matchingWords;
+	}
+	
+	getAllUnmatchingWords(wordsArray)
+	{
+		let unmatchingWords = [];
+		
+		for (let i = 0; i < wordsArray.length; i++)
+		{
+			if (this.hasWord(wordsArray[i]))
+			{
+				unmatchingWords.push(wordsArray[i]);
+			}
+		}
+		
+		return unmatchingWords;
+	}
+	
 	
 	
 	/*
@@ -55,7 +85,7 @@ class Trie
 		
 		for (let i = 0; i < str.length; i++)
 		{
-            curLetter = str[i];
+            curLetter = str[i].toLowerCase();
 			
 			// Create a node if there are currently no children with that letter
             if (pCrawl.children[curLetter] == null)
@@ -79,7 +109,7 @@ class Trie
 		
 		for (let i = 0; i < str.length; i++)
 		{
-            curLetter = str[i];
+            curLetter = str[i].toLowerCase();
 			
 			// Create a node if there are currently no children with that letter
             if (pCrawl.children[curLetter] == null)

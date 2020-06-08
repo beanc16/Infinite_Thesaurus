@@ -11,9 +11,9 @@ function getPreviousSearches()
  * INSERT
  */
 
-function addNewSynonyms(word, synonyms)
+function addNewSynonymsToPreviousSearches(word, synonyms)
 {
-	let previousData = previousSearches.getData(word);
+	let previousData = getWordsPreviousSearchData(word);
 	
 	// The word has never been searched before
 	if (previousData == null)
@@ -32,9 +32,9 @@ function addNewSynonyms(word, synonyms)
 	// The word already has synonyms saved, do nothing
 }
 
-function addNewAntonyms(word, antonyms)
+function addNewAntonymsToPreviousSearches(word, antonyms)
 {
-	let previousData = previousSearches.getData(word);
+	let previousData = getWordsPreviousSearchData(word);
 	
 	// The word has never been searched before
 	if (previousData == null)
@@ -56,11 +56,30 @@ function addNewAntonyms(word, antonyms)
 
 
 /* 
- * UTILITY
+ * BOOLEAN
  */
 
-function getWordsData(word)
+function getWordsPreviousSearchData(word)
 {
 	return previousSearches.getData(word);
+}
+
+function wasSearchedBefore(word)
+{
+	return (getWordsPreviousSearchData(word) != null);
+}
+
+function previousSearchHasSynonyms(word)
+{
+	let wordData = getWordsPreviousSearchData(word);
+	
+	return (wasSearchedBefore(word) && wordData.synonyms != null);
+}
+
+function previousSearchHasAntonyms(word)
+{
+	let wordData = getWordsPreviousSearchData(word);
+	
+	return (wasSearchedBefore(word) && wordData.antonyms != null);
 }
  

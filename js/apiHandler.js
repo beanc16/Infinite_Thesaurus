@@ -26,21 +26,33 @@ async function getSynonymsForWord(word)
 {
 	return new Promise(function (resolve, reject)
 	{
-		/*
-		 * API Documentation:
-		 * https://www.datamuse.com/api
-		 */
-		let url = ApiUrlsEnum.SYNONYM_BASE_URL + word;
+		// The word HAS been searched before and HAS synonyms
+		if (previousSearchHasSynonyms(word))
+		{
+			let wordData = getWordsPreviousSearchData(word);
+			resolve(wordData.synonyms);
+		}
 		
-		callApi(url)
-			.then(function(result)
-			{
-				resolve(result);
-			})
-			.catch(function(error)
-			{
-				reject(error);
-			});
+		// The word HAS NOT been searched before or DOESN'T HAVE synonyms
+		else
+		{
+			/*
+			 * API Documentation:
+			 * https://www.datamuse.com/api
+			 */
+			let url = ApiUrlsEnum.SYNONYM_BASE_URL + word;
+			
+			callApi(url)
+				.then(function(result)
+				{
+					addNewSynonymsToPreviousSearches(word, result);
+					resolve(result);
+				})
+				.catch(function(error)
+				{
+					reject(error);
+				});
+		}
 	});
 }
 
@@ -74,21 +86,33 @@ async function getAntonymsForWord(word)
 {
 	return new Promise(function (resolve, reject)
 	{
-		/*
-		 * API Documentation:
-		 * https://www.datamuse.com/api
-		 */
-		let url = ApiUrlsEnum.ANTONYM_BASE_URL + word;
+		// The word HAS been searched before and HAS antonyms
+		if (previousSearchHasAntonyms(word))
+		{
+			let wordData = getWordsPreviousSearchData(word);
+			resolve(wordData.antonyms);
+		}
 		
-		callApi(url)
-			.then(function(result)
-			{
-				resolve(result);
-			})
-			.catch(function(error)
-			{
-				reject(error);
-			});
+		// The word HAS NOT been searched before or DOESN'T HAVE antonyms
+		else
+		{
+			/*
+			 * API Documentation:
+			 * https://www.datamuse.com/api
+			 */
+			let url = ApiUrlsEnum.ANTONYM_BASE_URL + word;
+			
+			callApi(url)
+				.then(function(result)
+				{
+					addNewAntonymsToPreviousSearches(word, result);
+					resolve(result);
+				})
+				.catch(function(error)
+				{
+					reject(error);
+				});
+		}
 	});
 }
 
