@@ -40,7 +40,7 @@ async function getSynonymsForWord(word)
 			 * API Documentation:
 			 * https://www.datamuse.com/api
 			 */
-			let url = ApiUrlsEnum.SYNONYM_BASE_URL + word;
+			let url = ApiUrlsEnum.SYNONYM_BASE_URL + prepareWordForApi(word);
 			
 			callApi(url)
 				.then(function(result)
@@ -100,7 +100,7 @@ async function getAntonymsForWord(word)
 			 * API Documentation:
 			 * https://www.datamuse.com/api
 			 */
-			let url = ApiUrlsEnum.ANTONYM_BASE_URL + word;
+			let url = ApiUrlsEnum.ANTONYM_BASE_URL + prepareWordForApi(word);
 			
 			callApi(url)
 				.then(function(result)
@@ -114,6 +114,12 @@ async function getAntonymsForWord(word)
 				});
 		}
 	});
+}
+
+function prepareWordForApi(word)
+{
+	// Replace all spaces with an underscore (so the API recognizes it)
+	return word.replace(/\s/g, "_");
 }
 
 
