@@ -1,5 +1,5 @@
 # Infinite Thesaurus
-Search for synonyms and antonyms for any word, or multiple words at once, with just a few clicks.
+Search for synonyms and antonyms of any word, or multiple words at once, with just a few clicks.
 
 ## Why is the thesaurus "infinite"?
 Have you ever been writing a story or essay and wanted a different way of saying a word? You probably used a thesaurus to find synonyms of a word. Then synonyms of those synonyms, then synonyms of those synonyms, and so on. Wouldn't it be much easier if you could get synonyms of multiple words at once to make searching faster? I thought so too. Thus, the Infinite Thesaurus was born.
