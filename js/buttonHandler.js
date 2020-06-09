@@ -23,6 +23,12 @@ function getRootWord()
 
 function getRootSynonyms()
 {
+	// If the search didn't change, don't update anything
+	if (!hasSearchChanged(1, true))
+	{
+		return;
+	}
+	
 	let root = getRootWord();
 	
 	// Word is empty or only spaces
@@ -37,11 +43,18 @@ function getRootSynonyms()
 			clearTable(1);
 			displayWords(1, synonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
+			updateMostRecentSearch(1, root, true);
 		});
 }
 
 function getRootAntonyms()
 {
+	// If the search didn't change, don't update anything
+	if (!hasSearchChanged(1, false))
+	{
+		return;
+	}
+	
 	let root = getRootWord();
 	
 	// Word is empty or only spaces
@@ -56,6 +69,7 @@ function getRootAntonyms()
 			clearTable(1);
 			displayWords(1, antonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
+			updateMostRecentSearch(1, root, false);
 		});
 }
 
@@ -95,9 +109,16 @@ function initializeSynonymsAndAntonymsButtons(synonymsButton, antonymsButton, ta
 
 function getNonRootSynonyms(tableNum)
 {
-	let words = getAllCheckmarkedWords(tableNum);
+	// If the search didn't change, don't update anything
+	if (!hasSearchChanged(tableNum + 1, true))
+	{
+		console.log("Searched not changed");
+		return;
+	}
 	
-	getSynonymsForWords(words)
+	let wordsToSearch = getAllCheckmarkedWords(tableNum);
+	
+	getSynonymsForWords(wordsToSearch)
 		.then(function(synonyms)
 		{
 			tableNum++;
@@ -111,14 +132,22 @@ function getNonRootSynonyms(tableNum)
 			synonyms = mergeArrays(synonyms);
 			displayWords(tableNum, synonyms);
 			addSynonymsAndAntonymsButtonToTable(tableNum);
+			updateMostRecentSearch(tableNum, wordsToSearch, true);
 		});
 }
 
 function getNonRootAntonyms(tableNum)
 {
-	let words = getAllCheckmarkedWords(tableNum);
+	// If the search didn't change, don't update anything
+	if (!hasSearchChanged(tableNum + 1, false))
+	{
+		console.log("Searched not changed");
+		return;
+	}
 	
-	getAntonymsForWords(words)
+	let wordsToSearch = getAllCheckmarkedWords(tableNum);
+	
+	getAntonymsForWords(wordsToSearch)
 		.then(function(antonyms)
 		{
 			tableNum++;
@@ -132,6 +161,7 @@ function getNonRootAntonyms(tableNum)
 			antonyms = mergeArrays(antonyms);
 			displayWords(tableNum, antonyms);
 			addSynonymsAndAntonymsButtonToTable(tableNum);
+			updateMostRecentSearch(tableNum, wordsToSearch, false);
 		});
 }
 
