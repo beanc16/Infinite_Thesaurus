@@ -4,7 +4,7 @@ let numOfSynonymAndAntonymsButtons = 1;
  * INITIALIZATION
  */
 
-function initializeButtons()
+function initializeRootButtons()
 {
 	runOnClick("#synonyms1", getRootSynonyms);
 	runOnClick("#antonyms1", getRootAntonyms);
