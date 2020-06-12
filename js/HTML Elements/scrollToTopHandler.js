@@ -12,14 +12,12 @@ function initializeScrollToTopButton()
 		if ($(this).scrollTop() >= 150)
 		{        
 			$("#scrollToTopButton").fadeIn(200);
-			console.log("fade in");
 		}
 		
 		// At the top of the page, hide the button
 		else
 		{
 			$("#scrollToTopButton").fadeOut(200);
-			console.log("fade out");
 		}
 	});
 }
