@@ -33,6 +33,7 @@
     <script src="./js/API Optimization/searchChangedHandler.js"></script>
     <script src="./js/API Calling/apiHandler.js"></script>
     <script src="./js/HTML Elements/bootstrapGetters.js"></script>
+    <script src="./js/HTML Elements/statusHandler.js"></script>
     <script src="./js/HTML Elements/buttonHandler.js"></script>
     <script src="./js/HTML Elements/tableHandler.js"></script>
     <script src="./js/scriptManager.js"></script>
@@ -55,7 +56,9 @@
 	<div class="form-group row col-12">
 		<div class="col-1"></div>	<!-- Horizontal Spacing -->
 		<input type="submit" class="col-4" name="synonyms1" id="synonyms1" value="Get Synonyms" />
-		<div class="col-2"></div>	<!-- Horizontal Spacing -->
+		<div class="centerText col-2">
+			<div class="spinner-border text-primary loadingIcon1 hide"></div>
+		</div>	<!-- Horizontal Spacing -->
 		<input type="submit" class="col-4" name="antonyms1" id="antonyms1" value="Get Antonyms" />
 		<div class="col-1"></div>	<!-- Horizontal Spacing -->
 	</div>

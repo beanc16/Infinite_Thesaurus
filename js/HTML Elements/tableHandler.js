@@ -94,6 +94,16 @@ function appendBootstrapTableToBody()
 	return table;
 }
 
+function appendLoadingIconAfterTable(tableNum)
+{
+	// Create a new icon if one doesn't already exist
+	if ( $(".loadingIcon" + tableNum).length <= 0 )
+	{
+		let loadingIcon = createLoadingIcon(tableNum);
+		$("#table" + (tableNum - 1)).after(loadingIcon);
+	}
+}
+
 
 
 /* 

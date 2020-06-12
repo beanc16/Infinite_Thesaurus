@@ -29,6 +29,9 @@ function getRootSynonyms()
 		return;
 	}
 	
+	disableSynonymAntonymButtons(1);
+	unhideLoadingIcon(1);
+	
 	let root = getRootWord();
 	
 	// Word is empty or only spaces
@@ -44,6 +47,8 @@ function getRootSynonyms()
 			displayWords(1, synonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
 			updateMostRecentSearch(1, root, true);
+			enableSynonymAntonymButtons(1);
+			hideLoadingIcon(1);
 		});
 }
 
@@ -54,6 +59,9 @@ function getRootAntonyms()
 	{
 		return;
 	}
+	
+	disableSynonymAntonymButtons(1);
+	unhideLoadingIcon(1);
 	
 	let root = getRootWord();
 	
@@ -70,6 +78,8 @@ function getRootAntonyms()
 			displayWords(1, antonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
 			updateMostRecentSearch(1, root, false);
+			enableSynonymAntonymButtons(1);
+			hideLoadingIcon(1);
 		});
 }
 
@@ -116,6 +126,8 @@ function getNonRootSynonyms(tableNum)
 		return;
 	}
 	
+	unhideLoadingIcon(tableNum + 1);
+	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
 	
 	getSynonymsForWords(wordsToSearch)
@@ -133,6 +145,7 @@ function getNonRootSynonyms(tableNum)
 			displayWords(tableNum, synonyms);
 			addSynonymsAndAntonymsButtonToTable(tableNum);
 			updateMostRecentSearch(tableNum, wordsToSearch, true);
+			hideLoadingIcon(tableNum);
 		});
 }
 
@@ -144,6 +157,8 @@ function getNonRootAntonyms(tableNum)
 		console.log("Searched not changed");
 		return;
 	}
+	
+	unhideLoadingIcon(tableNum + 1);
 	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
 	
@@ -162,6 +177,7 @@ function getNonRootAntonyms(tableNum)
 			displayWords(tableNum, antonyms);
 			addSynonymsAndAntonymsButtonToTable(tableNum);
 			updateMostRecentSearch(tableNum, wordsToSearch, false);
+			hideLoadingIcon(tableNum);
 		});
 }
 
@@ -245,7 +261,20 @@ function addSynonymsAndAntonymsButtonToTable(tableNum)
 	appendButtonCellToRow(row, synonymsButton);
 	appendButtonCellToRow(row, antonymsButton);
 	appendButtonCellToRow(row, "");
+	appendLoadingIconAfterTable(tableNum + 1);
 	
 	// Button click listeners
 	initializeSynonymsAndAntonymsButtons(synonymsButton, antonymsButton, tableNum);
+}
+
+function disableSynonymAntonymButtons(tableNum)
+{
+	disableHtmlElement("#synonyms" + tableNum, true);
+	disableHtmlElement("#antonyms" + tableNum, true);
+}
+
+function enableSynonymAntonymButtons(tableNum)
+{
+	disableHtmlElement("#synonyms" + tableNum, false);
+	disableHtmlElement("#antonyms" + tableNum, false);
 }
