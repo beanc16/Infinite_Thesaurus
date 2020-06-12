@@ -1,5 +1,3 @@
-let numOfSynonymAndAntonymsButtons = 1;
-
 /* 
  * INITIALIZATION
  */
@@ -43,12 +41,15 @@ function getRootSynonyms()
 	getSynonymsForWord(root)
 		.then(function(synonyms)
 		{
+			/*
 			clearTable(1);
 			displayWords(1, synonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
 			updateMostRecentSearch(1, root, true);
 			enableSynonymAntonymButtons(1);
 			hideLoadingIcon(1);
+			*/
+			handleWordsFromApi(1, synonyms, root, true);
 		});
 }
 
@@ -74,12 +75,15 @@ function getRootAntonyms()
 	getAntonymsForWord(root)
 		.then(function(antonyms)
 		{
+			/*
 			clearTable(1);
 			displayWords(1, antonyms);
 			addSynonymsAndAntonymsButtonToTable(1);
 			updateMostRecentSearch(1, root, false);
 			enableSynonymAntonymButtons(1);
 			hideLoadingIcon(1);
+			*/
+			handleWordsFromApi(1, antonyms, root, false);
 		});
 }
 
@@ -89,14 +93,14 @@ function getRootAntonyms()
  * NON-ROOT GETTERS
  */
 
-function getSynonymsButton()
+function getSynonymsButton(tableNum)
 {
-	return getSubmitButton("col-12", "synonyms" + numOfSynonymAndAntonymsButtons, "Get Synonyms");
+	return getSubmitButton("col-12", "synonyms" + tableNum, "Get Synonyms");
 }
 
-function getAntonymsButton()
+function getAntonymsButton(tableNum)
 {
-	return getSubmitButton("col-12", "antonyms" + numOfSynonymAndAntonymsButtons, "Get Antonyms");
+	return getSubmitButton("col-12", "antonyms" + tableNum, "Get Antonyms");
 }
 
 function getSubmitButton(className, nameAndId, displayText)
@@ -126,6 +130,7 @@ function getNonRootSynonyms(tableNum)
 		return;
 	}
 	
+	disableSynonymAntonymButtons(tableNum + 1);
 	unhideLoadingIcon(tableNum + 1);
 	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
@@ -133,6 +138,7 @@ function getNonRootSynonyms(tableNum)
 	getSynonymsForWords(wordsToSearch)
 		.then(function(synonyms)
 		{
+			/*
 			tableNum++;
 			if (!tableExists(tableNum))
 			{
@@ -146,6 +152,8 @@ function getNonRootSynonyms(tableNum)
 			addSynonymsAndAntonymsButtonToTable(tableNum);
 			updateMostRecentSearch(tableNum, wordsToSearch, true);
 			hideLoadingIcon(tableNum);
+			*/
+			handleWordsFromApi(tableNum + 1, synonyms, wordsToSearch, true);
 		});
 }
 
@@ -158,6 +166,7 @@ function getNonRootAntonyms(tableNum)
 		return;
 	}
 	
+	disableSynonymAntonymButtons(tableNum + 1);
 	unhideLoadingIcon(tableNum + 1);
 	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
@@ -165,6 +174,7 @@ function getNonRootAntonyms(tableNum)
 	getAntonymsForWords(wordsToSearch)
 		.then(function(antonyms)
 		{
+			/*
 			tableNum++;
 			if (!tableExists(tableNum))
 			{
@@ -178,6 +188,8 @@ function getNonRootAntonyms(tableNum)
 			addSynonymsAndAntonymsButtonToTable(tableNum);
 			updateMostRecentSearch(tableNum, wordsToSearch, false);
 			hideLoadingIcon(tableNum);
+			*/
+			handleWordsFromApi(tableNum + 1, antonyms, wordsToSearch, false);
 		});
 }
 
@@ -201,6 +213,32 @@ function getAllCheckmarkedWords(tableNum)
 function mergeArrays(arrayOfArrays)
 {
 	return [].concat.apply([], arrayOfArrays);
+}
+
+function handleWordsFromApi(tableNum, words, mostRecentSearch, areSynonyms)
+{
+	// Create the table if it doesn't exist
+	if (!tableExists(tableNum))
+	{
+		appendBootstrapTableToBody();
+	}
+	
+	// Remove all data from the table
+	clearTable(tableNum);
+	
+	// Combine all arrays of words (in case synonyms / antonyms were obtained for multiple words)
+	words = mergeArrays(words);
+	
+	// Add the words & buttons to the table
+	displayWords(tableNum, words);
+	addSynonymsAndAntonymsButtonToTable(tableNum);
+	
+	// Update the most recent search & hide the loading icon
+	updateMostRecentSearch(tableNum, mostRecentSearch, areSynonyms);
+	hideLoadingIcon(tableNum);
+	
+	// Re-enable the buttons
+	enableSynonymAntonymButtons(tableNum);
 }
 
 
@@ -253,8 +291,8 @@ function addSynonymsAndAntonymsButtonToTable(tableNum)
 {
 	// Initialization
 	let row = appendRowToTBody(tableNum);
-	let synonymsButton = getSynonymsButton();
-	let antonymsButton = getAntonymsButton();
+	let synonymsButton = getSynonymsButton(tableNum + 1);
+	let antonymsButton = getAntonymsButton(tableNum + 1);
 	
 	// Add to HTML page
 	appendButtonCellToRow(row, "");
