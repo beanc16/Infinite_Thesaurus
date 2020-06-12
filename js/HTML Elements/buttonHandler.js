@@ -41,14 +41,6 @@ function getRootSynonyms()
 	getSynonymsForWord(root)
 		.then(function(synonyms)
 		{
-			/*
-			clearTable(1);
-			displayWords(1, synonyms);
-			addSynonymsAndAntonymsButtonToTable(1);
-			updateMostRecentSearch(1, root, true);
-			enableSynonymAntonymButtons(1);
-			hideLoadingIcon(1);
-			*/
 			handleWordsFromApi(1, synonyms, root, true);
 		});
 }
@@ -75,14 +67,6 @@ function getRootAntonyms()
 	getAntonymsForWord(root)
 		.then(function(antonyms)
 		{
-			/*
-			clearTable(1);
-			displayWords(1, antonyms);
-			addSynonymsAndAntonymsButtonToTable(1);
-			updateMostRecentSearch(1, root, false);
-			enableSynonymAntonymButtons(1);
-			hideLoadingIcon(1);
-			*/
 			handleWordsFromApi(1, antonyms, root, false);
 		});
 }
@@ -138,21 +122,6 @@ function getNonRootSynonyms(tableNum)
 	getSynonymsForWords(wordsToSearch)
 		.then(function(synonyms)
 		{
-			/*
-			tableNum++;
-			if (!tableExists(tableNum))
-			{
-				appendBootstrapTableToBody();
-			}
-			
-			clearTable(tableNum);
-			
-			synonyms = mergeArrays(synonyms);
-			displayWords(tableNum, synonyms);
-			addSynonymsAndAntonymsButtonToTable(tableNum);
-			updateMostRecentSearch(tableNum, wordsToSearch, true);
-			hideLoadingIcon(tableNum);
-			*/
 			handleWordsFromApi(tableNum + 1, synonyms, wordsToSearch, true);
 		});
 }
@@ -174,21 +143,6 @@ function getNonRootAntonyms(tableNum)
 	getAntonymsForWords(wordsToSearch)
 		.then(function(antonyms)
 		{
-			/*
-			tableNum++;
-			if (!tableExists(tableNum))
-			{
-				appendBootstrapTableToBody();
-			}
-			
-			clearTable(tableNum);
-			
-			antonyms = mergeArrays(antonyms);
-			displayWords(tableNum, antonyms);
-			addSynonymsAndAntonymsButtonToTable(tableNum);
-			updateMostRecentSearch(tableNum, wordsToSearch, false);
-			hideLoadingIcon(tableNum);
-			*/
 			handleWordsFromApi(tableNum + 1, antonyms, wordsToSearch, false);
 		});
 }
@@ -226,13 +180,22 @@ function handleWordsFromApi(tableNum, words, mostRecentSearch, areSynonyms)
 	// Remove all data from the table
 	clearTable(tableNum);
 	
-	// Combine all arrays of words (in case synonyms / antonyms were obtained for multiple words)
-	words = mergeArrays(words);
+	// Prepare the words to be displayed and tested
+	words = parseWordsForDisplay(words);
 	
-	// Add the words & buttons to the table
-	displayWords(tableNum, words);
-	addSynonymsAndAntonymsButtonToTable(tableNum);
+	// The api DID find words
+	if (words.length > 0)
+	{
+		// Add the words & buttons to the table
+		displayWords(tableNum, words);
+		addSynonymsAndAntonymsButtonToTable(tableNum);
+	}
 	
+	// The api DID NOT find words
+	else
+	{
+	}
+		
 	// Update the most recent search & hide the loading icon
 	updateMostRecentSearch(tableNum, mostRecentSearch, areSynonyms);
 	hideLoadingIcon(tableNum);
@@ -254,8 +217,6 @@ function clearTable(tableNum)
 
 function displayWords(tableNum, words)
 {
-	words = parseWordsForDisplay(words);
-	
 	// Initialize main variables
 	let row = appendRowToTBody(tableNum);
 	let wordNum = 0;
@@ -277,6 +238,9 @@ function displayWords(tableNum, words)
 
 function parseWordsForDisplay(words)
 {
+	// Combine all arrays of words (in case synonyms / antonyms were obtained for multiple words)
+	words = mergeArrays(words);
+	
 	// Convert words array of objects to just an array of words (strings)
 	words = getWordsFromArrayOfObjects(words);
 	
