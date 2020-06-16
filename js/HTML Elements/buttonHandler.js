@@ -16,7 +16,6 @@ function runOnClick(jQueryTag, callback)
 // TEMPORARY TEST TO PUSH TO GITHUB
 function nodeGetRequest(url, successFunction)
 {
-	console.log("Is this mobile friendly?");
 	// End the function if there's no url
 	if (url == null)
 	{
