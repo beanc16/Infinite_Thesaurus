@@ -8,6 +8,33 @@ function initializeRootButtons()
 	runOnClick("#antonyms1", getRootAntonyms);
 }
 
+function runOnClick(jQueryTag, callback)
+{
+	$(jQueryTag).on("click", callback);
+}
+
+// TEMPORARY TEST TO PUSH TO GITHUB
+function nodeGetRequest(url, successFunction)
+{
+	console.log("Is this mobile friendly?");
+	// End the function if there's no url
+	if (url == null)
+	{
+		//throw "Invalid URL parameter in nodePostRequest";
+		return;
+	}
+	
+	
+	// Send the ajax request
+	$.ajax({
+		type: "GET",
+		url: url,
+		// The below header should allow CORS Cross Domain requests
+		headers: {"Accept": "*"},
+		success: (result) => successFunction(result)
+	});
+}
+
 
 
 /* 
