@@ -1,10 +1,11 @@
 class Trie
 {
 	// Static
-	static ALPHABET_SIZE = 26;
+	//static ALPHABET_SIZE = 26;
 	
 	// Private
 	#root;
+	ALPHABET_SIZE = 26;
 	
 	constructor()
 	{
@@ -184,7 +185,7 @@ class _TrieNode
 		this.isEndOfWord = false;
 		this.data = null;
 		
-		for (let i = 0; i < Trie.ALPHABET_SIZE; i++)
+		for (let i = 0; i < this.ALPHABET_SIZE; i++)
 		{
 			let currentLetter = (i+10).toString(36);
 			this.children[currentLetter] = null;
