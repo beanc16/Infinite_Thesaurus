@@ -13,27 +13,6 @@ function runOnClick(jQueryTag, callback)
 	$(jQueryTag).on("click", callback);
 }
 
-// TEMPORARY TEST TO PUSH TO GITHUB
-function nodeGetRequest(url, successFunction)
-{
-	// End the function if there's no url
-	if (url == null)
-	{
-		//throw "Invalid URL parameter in nodePostRequest";
-		return;
-	}
-	
-	
-	// Send the ajax request
-	$.ajax({
-		type: "GET",
-		url: url,
-		// The below header should allow CORS Cross Domain requests
-		headers: {"Accept": "*"},
-		success: (result) => successFunction(result)
-	});
-}
-
 
 
 /* 
@@ -61,6 +40,10 @@ function getRootSynonyms()
 	// Word is empty or only spaces
 	if (root == null || root.replace(/\s/g, '') == "")
 	{
+		updateErrorMessage("ERROR: You must type a word to search");
+		hideLoadingIcon(1);
+		enableSynonymAntonymButtons(1);
+		
 		return;
 	}
 	
@@ -68,6 +51,11 @@ function getRootSynonyms()
 		.then(function(synonyms)
 		{
 			handleWordsFromApi(1, synonyms, root, true);
+		})
+		.catch(function(errorData)
+		{
+			console.log("ERROR in getRootSynonyms: ", errorData.ajaxError);
+			updateErrorMessage(errorData.devError);
 		});
 }
 
@@ -87,6 +75,10 @@ function getRootAntonyms()
 	// Word is empty or only spaces
 	if (root == null || root.replace(/\s/g, '') == "")
 	{
+		updateErrorMessage("ERROR: You must type a word to search");
+		hideLoadingIcon(1);
+		enableSynonymAntonymButtons(1);
+		
 		return;
 	}
 	
@@ -94,6 +86,11 @@ function getRootAntonyms()
 		.then(function(antonyms)
 		{
 			handleWordsFromApi(1, antonyms, root, false);
+		})
+		.catch(function(errorData)
+		{
+			console.log("ERROR in getRootAntonyms: ", errorData.ajaxError);
+			updateErrorMessage(errorData.devError);
 		});
 }
 
@@ -136,7 +133,6 @@ function getNonRootSynonyms(tableNum)
 	// If the search didn't change, don't update anything
 	if (!hasSearchChanged(tableNum + 1, true))
 	{
-		console.log("Searched not changed");
 		return;
 	}
 	
@@ -145,11 +141,27 @@ function getNonRootSynonyms(tableNum)
 	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
 	
-	getSynonymsForWords(wordsToSearch)
-		.then(function(synonyms)
-		{
-			handleWordsFromApi(tableNum + 1, synonyms, wordsToSearch, true);
-		});
+	if (wordsToSearch.length > 0)
+	{
+		getSynonymsForWords(wordsToSearch)
+			.then(function(synonyms)
+			{
+				handleWordsFromApi(tableNum + 1, synonyms, wordsToSearch, true);
+			})
+			.catch(function(errorData)
+			{
+				console.log("ERROR in getNonRootSynonyms: ", errorData.ajaxError);
+				updateErrorMessage(errorData.devError);
+			});
+	}
+	
+	else
+	{
+		updateErrorMessage("ERROR: You must select words to search");
+		
+		hideLoadingIcon(tableNum + 1);
+		enableSynonymAntonymButtons(tableNum + 1);
+	}
 }
 
 function getNonRootAntonyms(tableNum)
@@ -157,7 +169,6 @@ function getNonRootAntonyms(tableNum)
 	// If the search didn't change, don't update anything
 	if (!hasSearchChanged(tableNum + 1, false))
 	{
-		console.log("Searched not changed");
 		return;
 	}
 	
@@ -166,11 +177,27 @@ function getNonRootAntonyms(tableNum)
 	
 	let wordsToSearch = getAllCheckmarkedWords(tableNum);
 	
-	getAntonymsForWords(wordsToSearch)
-		.then(function(antonyms)
-		{
-			handleWordsFromApi(tableNum + 1, antonyms, wordsToSearch, false);
-		});
+	if (wordsToSearch.length > 0)
+	{
+		getAntonymsForWords(wordsToSearch)
+			.then(function(antonyms)
+			{
+				handleWordsFromApi(tableNum + 1, antonyms, wordsToSearch, false);
+			})
+			.catch(function(errorData)
+			{
+				console.log("ERROR in getNonRootAntonyms: ", errorData.ajaxError);
+				updateErrorMessage(errorData.devError);
+			});
+	}
+	
+	else
+	{
+		updateErrorMessage("ERROR: You must select words to search");
+		
+		hideLoadingIcon(tableNum + 1);
+		enableSynonymAntonymButtons(tableNum + 1);
+	}
 }
 
 function getAllCheckmarkedWords(tableNum)
@@ -215,11 +242,23 @@ function handleWordsFromApi(tableNum, words, mostRecentSearch, areSynonyms)
 		// Add the words & buttons to the table
 		displayWords(tableNum, words);
 		addSynonymsAndAntonymsButtonToTable(tableNum);
+		
+		// Hide the error message
+		hideErrorMessage();
 	}
 	
 	// The api DID NOT find words
 	else
 	{
+		if (areSynonyms)
+		{
+			updateErrorMessage("ERROR: No synonyms found, please update the word(s) you'd like to search");
+		}
+		
+		else
+		{
+			updateErrorMessage("ERROR: No antonyms found, please update the word(s) you'd like to search");
+		}
 	}
 		
 	// Update the most recent search & hide the loading icon

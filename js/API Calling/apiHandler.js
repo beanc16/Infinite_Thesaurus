@@ -132,19 +132,39 @@ async function callApi(url)
 {
 	return new Promise(function (resolve, reject)
 	{
-		try
+		nodeGetRequest(url, function(data)
 		{
-			nodeGetRequest(url, function(data)
-			{
-				resolve(data);
+			// SUCCESS FUNCTION
+			resolve(data);
+		}, function(errorMsg)
+		{
+			// ERROR FUNCTION
+			reject({
+				ajaxError: errorMsg, 
+				devError: "Failed to call API, please refresh the page and try again (this may take a few attempts)"
 			});
-		}
-		
-		catch (error)
-		{
-			console.log("\nERROR in callApi:\n", error);
-			reject(error);
-		}
+		});
+	});
+}
+
+// TEMPORARY TEST TO PUSH TO GITHUB
+function nodeGetRequest(url, successFunction, errorFunction)
+{
+	// End the function if there's no url
+	if (url == null || url.trim() == "")
+	{
+		errorFunction("Invalid or blank url");
+	}
+	
+	
+	// Send the ajax request
+	$.ajax({
+		type: "GET",
+		url: url,
+		// The below header should allow CORS Cross Domain requests
+		headers: {"Accept": "*"},
+		success: (result) => successFunction(result),
+		error: (error) => errorFunction(error)
 	});
 }
 

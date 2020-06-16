@@ -10,8 +10,30 @@
 	position: fixed;
     bottom: 35px;
     right: 35px;
+	
+	z-index: 10000;
 }
 
+#errorMsg {
+	position: fixed;
+    bottom: 35px;
+    left: 35px;
+	width: auto !important;
+	
+	padding-top: 6px;
+	padding-bottom: 6px;
+	
+	border-width: 2px !important;
+	border-color: #eca9a7 !important;
+	
+	opacity: 0.9;
+	pointer-events: none;
+	
+	z-index: 10000;
+}
+
+
+/* Bootstrap Circular Buttons */
 .btn-circle.btn-sm { 
 	width: 30px; 
 	height: 30px; 

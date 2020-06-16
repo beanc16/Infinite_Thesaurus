@@ -1,8 +1,5 @@
 class Trie
-{
-	// Static
-	//static ALPHABET_SIZE = 26;
-	
+{	
 	// Private
 	#root;
 	ALPHABET_SIZE = 26;

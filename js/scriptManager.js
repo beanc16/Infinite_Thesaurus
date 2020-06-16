@@ -1,8 +1,7 @@
 // Run when the page is loaded
-runOnDocumentReady(preventPageRefresh, initializeRootButtons, initializeScrollToTopButton, dontCacheForPhones);
+runOnDocumentReady(preventPageRefresh, initializeRootButtons, initializeScrollToTopButton, preventCaching);
 
-function dontCacheForPhones()
+function preventCaching()
 {
-	console.log("No caching");
 	$.ajaxSetup({ cache: false });
 }
