@@ -56,6 +56,9 @@ function getRootSynonyms()
 		{
 			console.log("ERROR in getRootSynonyms: ", errorData.ajaxError);
 			updateErrorMessage(errorData.devError);
+			
+			hideLoadingIcon(1);
+			enableSynonymAntonymButtons(1);
 		});
 }
 
@@ -91,6 +94,9 @@ function getRootAntonyms()
 		{
 			console.log("ERROR in getRootAntonyms: ", errorData.ajaxError);
 			updateErrorMessage(errorData.devError);
+			
+			hideLoadingIcon(1);
+			enableSynonymAntonymButtons(1);
 		});
 }
 
@@ -152,6 +158,9 @@ function getNonRootSynonyms(tableNum)
 			{
 				console.log("ERROR in getNonRootSynonyms: ", errorData.ajaxError);
 				updateErrorMessage(errorData.devError);
+				
+				hideLoadingIcon(tableNum + 1);
+				enableSynonymAntonymButtons(tableNum + 1);
 			});
 	}
 	
@@ -188,6 +197,9 @@ function getNonRootAntonyms(tableNum)
 			{
 				console.log("ERROR in getNonRootAntonyms: ", errorData.ajaxError);
 				updateErrorMessage(errorData.devError);
+				
+				hideLoadingIcon(tableNum + 1);
+				enableSynonymAntonymButtons(tableNum + 1);
 			});
 	}
 	
